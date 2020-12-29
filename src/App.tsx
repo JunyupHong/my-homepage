@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './App.scss';
 import * as THREE from 'three';
-import { maxHeaderSize } from 'http';
-import { createVariableDeclaration } from 'typescript';
 
 function App() {
     enum Shape {
@@ -109,9 +107,6 @@ function App() {
         light.position.set(mousePosition.x, mousePosition.y, mousePosition.z);
         light.castShadow = true;
         scene.add(light);
-
-        const helper = new THREE.PointLightHelper(light, 10);
-        scene.add(helper);
     }
 
     const onMouseMove = (evt: MouseEvent) => {
