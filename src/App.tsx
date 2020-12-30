@@ -112,8 +112,7 @@ function App() {
     const onMouseMove = (evt: MouseEvent) => {
         mousePosition.set((evt.offsetX - (window.innerWidth / 2)) * 75 / 180, ((window.innerHeight / 2) - evt.offsetY) * 75 /180, mousePosition.z);
     }
-    const onResizeWindow = (evt: Event) => {
-        console.log(evt)
+    const onResizeWindow = (evt: UIEvent) => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
