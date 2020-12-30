@@ -15,52 +15,32 @@ function App() {
     const scene: THREE.Scene = new THREE.Scene();
     scene.background = new THREE.Color(0x010101);
     const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const light: THREE.PointLight = new THREE.PointLight(0xffffff, 2, undefined, 2);
+    const light: THREE.PointLight = new THREE.PointLight(0xffffff, 2, 100, 2, );
     // const light: THREE.SpotLight = new THREE.SpotLight(0xffffff, 1);
     const renderer: THREE.Renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
     let mousePosition: THREE.Vector3 = new THREE.Vector3(0, 0, window.innerWidth * 2);
-    const meshes: Array<THREE.Mesh> = [];
 
+    const objects: Array<{
+        mesh: THREE.Mesh,
+        speed: number
+        rotationSpeed: number,
+    }> = [];
 
     let tick = 0;
     useEffect(() => {
         initCanvas();
 
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        createShape(Shape.CYLINDER);
-        // createShape(Shape.TORUSKNOT);
-        // createShape(Shape.TORUS);
-        // createShape(Shape.OCTAHEDRON);
-        // createShape(Shape.CONE);
-        meshes[0].position.x = 0;
-        meshes[1].position.x = 100;
-        meshes[2].position.x = 200;
-        meshes[3].position.x = -100;
-        meshes[4].position.x = -200;
-        meshes[5].position.y = -100;
-        meshes[6].position.y = -200;
-        meshes[7].position.y = 100;
-        meshes[8].position.y = 200;
-        meshes[0].position.z = -10;
-        meshes[1].position.z = -20;
-        meshes[2].position.z = -30;
-        meshes[3].position.z = -40;
-        meshes[4].position.z = -50;
-        meshes[5].position.z = -60;
-        meshes[6].position.z = -70;
-        meshes[7].position.z = -80;
-        meshes[8].position.z = -90;
+        objects.push({
+            mesh: createShapeMesh(Shape.CYLINDER),
+            speed: Math.random(),
+            rotationSpeed: Math.random(),
+        });
         
+        objects[0].mesh.position.x = 0;
+        objects[0].mesh.position.z = -10;
 
-        scene.add(...meshes);
+        scene.add(...objects.map(object => object.mesh));
 
         window.addEventListener('resize', onResizeWindow);
         renderer.domElement.addEventListener('mousemove', onMouseMove);
@@ -118,7 +98,7 @@ function App() {
         camera.updateProjectionMatrix();
     }
 
-    const createShape = (shape: Shape) => {
+    const createShapeMesh = (shape: Shape) => {
         let geometry!: THREE.Geometry;
         const material = new THREE.MeshStandardMaterial( { color: 0x101010 } );
         switch(shape) {
@@ -138,8 +118,7 @@ function App() {
                 geometry = new THREE.OctahedronGeometry(10, 0);
                 break;
         }
-
-        meshes.push(new THREE.Mesh( geometry, material ));
+        return new THREE.Mesh( geometry, material )
     }
 
     return (
