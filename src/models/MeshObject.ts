@@ -10,7 +10,7 @@ enum MeshShape {
     ICOSAHEDRON = 'icosahedron'
 };
 
-class MeshObject {
+export default class MeshObject {
     private geometry: Geometry;
     private material: MeshStandardMaterial;
     private _mesh: Mesh;
@@ -53,7 +53,7 @@ class MeshObject {
         return this._lifeTime;
     }
 
-    public initRandom: () => MeshObject = () => {
+    public initRandom = (): MeshObject => {
         this.mesh.position.set(-(window.innerWidth / 2) * 75 / 180 + (Math.random() - 0.5) * 100, (window.innerHeight / 2) * 75 / 180 + (Math.random() - 0.5) * 100 - 100, 0);
         this.mesh.rotateZ(Math.PI / 2 + Math.sin(Math.random() - 0.5));
         this.positionVector.set((Math.random() + 0.2) * 0.6, (Math.random() - 0.7) * 0.6, Math.random() / 2 - 0.25);
@@ -73,4 +73,3 @@ class MeshObject {
 }
 
 export { MeshObject, MeshShape };
-export default MeshObject;

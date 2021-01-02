@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import './App.scss';
 import * as THREE from 'three';
 import Main from './page/main/main';
-import MeshObject, { MeshShape } from './class/MeshObject';
+import MeshObject, { MeshShape } from './models/MeshObject';
 
 function App() {
     const canvas = useRef<HTMLDivElement>(null);
@@ -27,10 +27,10 @@ function App() {
             meshObjects.push(new MeshObject(MeshShape.OCTAHEDRON).initRandom());
             meshObjects.push(new MeshObject(MeshShape.TORUS).initRandom());
         }
-
         scene.add(...meshObjects.map(object => object.mesh));
+
         window.addEventListener('resize', onResizeWindow);
-        window.addEventListener('mousemove', setMousePosition);
+        window.addEventListener('mousemove', onMouseMove);
 
         updateCanvas();
 
@@ -39,7 +39,7 @@ function App() {
             if (canvas && canvas.current) canvas.current.removeChild(renderer.domElement);
             while (meshObjects.length) meshObjects.pop();
             window.removeEventListener('resize', onResizeWindow);
-            window.removeEventListener('mousemove', setMousePosition);
+            window.removeEventListener('mousemove', onMouseMove);
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -64,8 +64,7 @@ function App() {
 
         if (!canvas || !canvas.current) return;        
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.domElement.setAttribute('style', 'opacity: 0.9;');
-
+        renderer.domElement.setAttribute('style', 'opacity: 0.87;');
         canvas.current.appendChild(renderer.domElement);
 
         camera.position.z = 300;
@@ -77,7 +76,7 @@ function App() {
         scene.add(light);
     }
 
-    const setMousePosition = (evt: MouseEvent) => {
+    const onMouseMove = (evt: MouseEvent) => {
         mousePosition.set((evt.offsetX - (window.innerWidth / 2)) * 75 / 180, ((window.innerHeight / 2) - evt.offsetY) * 75 /180, mousePosition.z);
     }
     const onResizeWindow = (evt: UIEvent) => {
@@ -92,7 +91,6 @@ function App() {
             <header className="app-header">header</header>
             <section className="app-section">section</section>
             <footer className="app-footer">footer</footer>
-            <Main></Main>
         </div>
     );
 }
