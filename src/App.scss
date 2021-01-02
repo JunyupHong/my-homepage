@@ -3,4 +3,11 @@
     display: flex;
     flex-direction: column;
     color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-background {
+    position: fixed;
+    z-index: -1;
 }
